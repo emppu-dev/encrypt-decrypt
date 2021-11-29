@@ -1,9 +1,10 @@
 from cryptography.fernet import Fernet
 import json
+import os
 
 print("[1] - Encrypt")
 print("[2] - Decrypt")
-print("[3] - Make a new key")
+print("[3] - Key options")
 
 valinta = str(input("emppu.cc @> "))
 
@@ -13,6 +14,8 @@ with open('config.json') as f:
 key = config.get('key')
 
 if valinta == "1":
+    os.system("cls")
+    print("Encrypt")
     tiedosto = str(input("File: "))
     f = Fernet(key)
 
@@ -26,6 +29,8 @@ if valinta == "1":
         encrypted_file.write(encrypted)
 
 elif valinta == "2":
+    os.system("cls")
+    print("Decrypt")
     tiedosto = str(input("File: "))
     f = Fernet(key)
 
@@ -46,14 +51,29 @@ elif valinta == "2":
         print("[-] Wrong key")
 
 elif valinta == "3":
-    key = Fernet.generate_key()
-    key = str(key,'utf-8')
-    
-    config["key"] = f"{key}"
+    os.system("cls")
+    print("[1] - Generate a new key")
+    print("[2] - Change the key manually")
+    valinta2 = input("emppu.cc @> ")
+    if valinta2 == "1":
+        os.system("cls")
+        print("Generate a new key")
+        key = Fernet.generate_key()
+        key = str(key,'utf-8')
+        
+        config["key"] = f"{key}"
 
-    with open('config.json', 'w') as f:
-        json.dump(config, f)
-    
-    print("[+] Key succesfully generated")
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
+
+    elif valinta2 == "2":
+        os.system("cls")
+        print("Change the key manually")
+        key = input("Key: ")
+
+        config["key"] = f"{key}"
+
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
 
 print("[+] Done")
